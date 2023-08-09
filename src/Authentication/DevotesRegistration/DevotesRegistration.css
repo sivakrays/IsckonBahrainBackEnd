@@ -1,0 +1,23 @@
+@media (min-width: 320px) {
+    .error {
+      width: 214px;
+    }
+  }
+
+@media (min-width: 375px) {
+    .error {
+      width: 269px;
+    }
+  }
+
+  @media (min-width: 425px) {
+    .error {
+      width: 320px;
+    }
+  }
+
+@media (min-width: 768px) {
+    .error {
+      width: 440px;
+    }
+  }
