@@ -27,24 +27,16 @@ const UserRegistration = () => {
   const [selectedRoles, setSelectedRoles] = useState([]);
   const [error, setError] = useState("");
   const [department, setDepartment] = useState("");
-  const departmentOptions = [
-    { value: "teacher", label: "Teacher" },
-    { value: "principal", label: "Principal" },
-    { value: "student", label: "Student" },
-    { value: "watchman", label: "Watchman" },
-  ];
+  const [departmentOptions, setDepartmentOptions] = useState([]);
   const [cameraImage, setCameraImage] = useState(null);
   const webcamRef = React.useRef(null);
 
   useEffect(() => {
     // Fetch data from the API using the get function
-    get("/endpoint")
+    get("/getDepartment")
       .then((response) => {
-        setDepartment(response.data);
+        setDepartmentOptions(response.data);
       })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
   }, []);
 
   const handleChange = (e) => {
@@ -82,6 +74,7 @@ const UserRegistration = () => {
     } else if (!cameraImage) {
       setError("Please capture an image");
     } else {
+      setError('')
       handleUserRegister();
     }
   };
@@ -110,13 +103,10 @@ const UserRegistration = () => {
     };
 
     // Make a POST request using the post function
-    post("/login", postData, config)
+    post("/saveUserDetails", postData, config)
       .then((response) => {
-        console.log("Login Successful : ", response);
+        console.log("User Register Successful : ", response);
       })
-      .catch((error) => {
-        console.log("Login Error : ", error);
-      });
   };
 
   const handleImageUpload = (e) => {

@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import { post } from "../../ApiUtils/ApiUtils";
+import { get } from "../../ApiUtils/ApiUtils";
 import { TextField, Button } from "@mui/material";
 
 function Login() {
-  const [username, setUsername] = useState("");
+  const [emailOrUserName, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const handleValidation = () => {
-    const usernameRegex = /^[a-zA-Z0-9_]{3,}$/;
     const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
 
-    if (username === "" || password === "") {
+    if (emailOrUserName === "" || password === "") {
       setError("Enter username and password");
-    } else if (!usernameRegex.test(username) || !passwordRegex.test(password)) {
+    } else if (!passwordRegex.test(password)) {
       setError("Invalid username or password");
     } else {
       setError("");
@@ -22,16 +21,25 @@ function Login() {
   };
 
   const handleLogin = () => {
-    const postData = {
-      email: username,
-      password: password,
+    const isEmail = (email) => {
+      const emailRegex = /^[\w.-]+@[\w.-]+\.\w+$/;
+      return emailRegex.test(email);
     };
+
     const config = {
       headers: {
         "Content-Type": "application/json",
+        password: password,
       },
     };
-    post("/login", postData, config).then((response) => {
+
+    if (isEmail(emailOrUserName)) {
+      config.headers.email = emailOrUserName;
+    } else {
+      config.headers.userName = emailOrUserName;
+    }
+
+    get("/userLogin", config).then((response) => {
       console.log("Login Successful : ", response);
     });
   };
@@ -45,7 +53,7 @@ function Login() {
             <div className="form-group">
               <TextField
                 label="Username"
-                value={username}
+                value={emailOrUserName}
                 onChange={(e) => setUsername(e.target.value)}
                 fullWidth
               />

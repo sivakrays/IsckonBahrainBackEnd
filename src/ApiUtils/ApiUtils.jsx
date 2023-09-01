@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:8080/iskconBahrain/api"; // Replace with your API base URL
+const BASE_URL = "https://iskcon-bahrain-production.up.railway.app/iskconBahrain/api"; // Replace with your API base URL
 
 const apiInstance = axios.create({
   baseURL: BASE_URL,

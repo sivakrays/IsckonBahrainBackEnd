@@ -71,7 +71,8 @@ const DevotesRegistration = () => {
     } else if (!cameraImage) {
       setError("Please capture an image");
     } else {
-      console.log("Details : ");
+      setError('');
+      handleDevoteRegistration();
     }
   };
 
@@ -98,6 +99,33 @@ const DevotesRegistration = () => {
     setCameraImage(null)
   }
 
+  const handleDevoteRegistration = () => {
+      const postData = {
+        // Your data to be sent in the request
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        userName: formData.userName,
+        image: cameraImage,
+        email: formData.email,
+        password: formData.password,
+        confirmPassword: formData.confirmPassword,
+        dob: formData.dob,
+        gender: formData.gender,
+      };
+  
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        // Other optional configurations can be included here (e.g., timeout, auth tokens)
+      };
+  
+      // Make a POST request using the post function
+      post("/saveDevoteDetails", postData, config)
+        .then((response) => {
+          console.log("Devote Register Successful : ", response);
+        })
+  }
 
   return (
     <div className="container d-flex justify-content-center align-items-center mt-5 mb-5">
